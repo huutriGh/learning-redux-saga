@@ -14,7 +14,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    'react/prop-types': 1,
+    'react/prop-types': 0,
     'react/jsx-max-props-per-line': 1,
     'linebreak-style': 0,
     'import/no-extraneous-dependencies': 0,
