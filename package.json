@@ -44,12 +44,16 @@
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5"
   },
-  "husky":{
-    "hooks":{
-      "pre-commit":"lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   },
-  "lint-staged":{
-    "**/*.{js,css}":["eslint src", "npm run format", "git add"]
+  "lint-staged": {
+    "**/*.{js,css}": [
+      "eslint src",
+      "npm run format",
+      "git add"
+    ]
   }
 }

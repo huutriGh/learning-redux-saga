@@ -28,6 +28,8 @@ module.exports = {
     'import/newline-after-import': 0,
     'import/no-useless-path-segments': 0,
     'import/prefer-default-export': 0,
+    'react/require-default-props': 1,
+    'no-unused-vars': 1,
     'react/jsx-uses-vars': 2,
   },
   plugins: ['prettier'],

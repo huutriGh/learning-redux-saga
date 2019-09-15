@@ -11,7 +11,7 @@ import styles from './styles';
 class TaskForm extends Component {
   render() {
     const { open, classes, onClose } = this.props;
-    var a = 0;
+
     return (
       <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
