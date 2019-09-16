@@ -4,9 +4,12 @@ import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import TaskForm from '../../components/TaskForm';
 import TaskList from '../../components/TaskList/index';
-import { STATUSES } from '../../constant/index';
+import { STATUSES } from '../../constants/index';
+import * as taskActions from './../../actions/task';
 import styles from './styles';
 
 const listTask = [
@@ -36,6 +39,12 @@ class Taskboard extends Component {
     this.state = {
       open: false,
     };
+  }
+
+  componentDidMount() {
+    const { taskActionCreators } = this.props;
+    const { fetchListTask } = taskActionCreators;
+    fetchListTask();
   }
 
   renderBoard = () => {
@@ -96,6 +105,21 @@ class Taskboard extends Component {
 
 Taskboard.propTypes = {
   classes: PropTypes.object,
+  taskActions: PropTypes.shape({
+    fetchListTask: PropTypes.func,
+  }),
 };
 
-export default withStyles(styles)(Taskboard);
+const mapStateToProps = null;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    taskActionCreators: bindActionCreators(taskActions, dispatch),
+  };
+};
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Taskboard),
+);

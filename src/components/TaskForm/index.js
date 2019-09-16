@@ -43,7 +43,5 @@ class TaskForm extends Component {
     );
   }
 }
-TaskForm.prototype = {
-  classes: PropTypes.object,
-};
+
 export default withStyles(styles)(TaskForm);
