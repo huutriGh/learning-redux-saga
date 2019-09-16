@@ -12,26 +12,6 @@ import { STATUSES } from '../../constants/index';
 import * as taskActions from './../../actions/task';
 import styles from './styles';
 
-const listTask = [
-  {
-    id: 1,
-    title: 'Read Book',
-    description: 'Read material ui book',
-    status: 0,
-  },
-  {
-    id: 2,
-    title: 'Play Football',
-    description: 'With my friend',
-    status: 1,
-  },
-  {
-    id: 3,
-    title: 'Play game',
-    description: '',
-    status: 2,
-  },
-];
 class Taskboard extends Component {
   constructor(props) {
     super(props);
@@ -43,11 +23,12 @@ class Taskboard extends Component {
 
   componentDidMount() {
     const { taskActionCreators } = this.props;
-    const { fetchListTask } = taskActionCreators;
-    fetchListTask();
+    const { fetchListTaskRequest } = taskActionCreators;
+    fetchListTaskRequest();
   }
 
   renderBoard = () => {
+    const { listTask } = this.props;
     let xhtml = null;
     xhtml = (
       <Grid container spacing={2}>
@@ -55,6 +36,7 @@ class Taskboard extends Component {
           const taskFilter = listTask.filter(
             task => task.status === status.value,
           );
+
           return (
             <TaskList tasks={taskFilter} status={status} key={status.value} />
           );
@@ -106,11 +88,16 @@ class Taskboard extends Component {
 Taskboard.propTypes = {
   classes: PropTypes.object,
   taskActions: PropTypes.shape({
-    fetchListTask: PropTypes.func,
+    fetchListTaskRequest: PropTypes.func,
   }),
+  listTask: PropTypes.array,
 };
 
-const mapStateToProps = null;
+const mapStateToProps = state => {
+  return {
+    listTask: state.task.listTask,
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
