@@ -27,17 +27,17 @@ export const fetchListTaskFailed = error => {
  * B2: Reset State Task=>[]
  * B3: fetchListTaskSuccess (data response)
  */
-export const fetchListTaskRequest = () => {
-  return dispatch => {
-    dispatch(fetchListTask());
-    taskApis
-      .getList()
-      .then(res => {
-        const { data } = res;
-        dispatch(fetchListTaskSuccess(data));
-      })
-      .catch(error => {
-        dispatch(fetchListTaskFailed(error));
-      });
-  };
-};
+// export const fetchListTaskRequest = () => {
+//   return dispatch => {
+//     dispatch(fetchListTask());
+//     taskApis
+//       .getList()
+//       .then(res => {
+//         const { data } = res;
+//         dispatch(fetchListTaskSuccess(data));
+//       })
+//       .catch(error => {
+//         dispatch(fetchListTaskFailed(error));
+//       });
+//   };
+// };

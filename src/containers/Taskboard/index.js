@@ -21,11 +21,11 @@ class Taskboard extends Component {
     };
   }
 
-  componentDidMount() {
-    const { taskActionCreators } = this.props;
-    const { fetchListTaskRequest } = taskActionCreators;
-    fetchListTaskRequest();
-  }
+  // componentDidMount() {
+  //   const { taskActionCreators } = this.props;
+  //   const { fetchListTask } = taskActionCreators;
+  //   fetchListTask();
+  // }
 
   renderBoard = () => {
     const { listTask } = this.props;
@@ -65,10 +65,25 @@ class Taskboard extends Component {
     return xhtml;
   };
 
+  loadData = () => {
+    const { taskActionCreators } = this.props;
+    const { fetchListTask } = taskActionCreators;
+    fetchListTask();
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.taskboard}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={this.loadData}
+          style={{ marginRight: 20 }}
+        >
+          Load Data
+        </Button>
         <Button
           variant="contained"
           color="primary"
@@ -78,6 +93,7 @@ class Taskboard extends Component {
           <AddIcon />
           Add New Task
         </Button>
+
         {this.renderBoard()}
         {this.renderForm()}
       </div>

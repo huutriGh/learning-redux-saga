@@ -1,0 +1,2 @@
+export const SHOW_LOADING = 'GLOBAL_SHOW_LAODING';
+export const HIDE_LOADING = 'GLOBAL_HIDE_LAODING';
