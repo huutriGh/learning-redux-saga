@@ -11,6 +11,7 @@ import TaskList from '../../components/TaskList/index';
 import { STATUSES } from '../../constants/index';
 import * as taskActions from './../../actions/task';
 import styles from './styles';
+import SearchBox from './../../components/SearchBox/index';
 
 class Taskboard extends Component {
   constructor(props) {
@@ -21,11 +22,11 @@ class Taskboard extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const { taskActionCreators } = this.props;
-  //   const { fetchListTask } = taskActionCreators;
-  //   fetchListTask();
-  // }
+  componentDidMount() {
+    const { taskActionCreators } = this.props;
+    const { fetchListTask } = taskActionCreators;
+    fetchListTask();
+  }
 
   renderBoard = () => {
     const { listTask } = this.props;
@@ -65,6 +66,19 @@ class Taskboard extends Component {
     return xhtml;
   };
 
+  handleFilter = event => {
+    const { value } = event.target;
+    const { taskActionCreators } = this.props;
+    const { filterTask } = taskActionCreators;
+    filterTask(value);
+  };
+
+  renderSearchBox = () => {
+    let xhtml = null;
+    xhtml = <SearchBox handleChange={this.handleFilter} />;
+    return xhtml;
+  };
+
   loadData = () => {
     const { taskActionCreators } = this.props;
     const { fetchListTask } = taskActionCreators;
@@ -93,7 +107,7 @@ class Taskboard extends Component {
           <AddIcon />
           Add New Task
         </Button>
-
+        {this.renderSearchBox()}
         {this.renderBoard()}
         {this.renderForm()}
       </div>
@@ -105,6 +119,7 @@ Taskboard.propTypes = {
   classes: PropTypes.object,
   taskActions: PropTypes.shape({
     fetchListTaskRequest: PropTypes.func,
+    filterTask: PropTypes.func,
   }),
   listTask: PropTypes.array,
 };

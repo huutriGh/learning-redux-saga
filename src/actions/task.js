@@ -1,4 +1,4 @@
-import * as taskApis from './../apis/task';
+// import * as taskApis from './../apis/task';
 import * as taskConstants from './../constants/task';
 
 export const fetchListTask = () => {
@@ -22,6 +22,19 @@ export const fetchListTaskFailed = error => {
     },
   };
 };
+
+export const filterTask = keyword => ({
+  type: taskConstants.FILTER_TASK,
+  payload: {
+    keyword,
+  },
+});
+export const filterTaskSuccess = data => ({
+  type: taskConstants.FILTER_TASK_SUCCESS,
+  payload: {
+    data,
+  },
+});
 /**
  * B1: fetchListTaskRequest
  * B2: Reset State Task=>[]

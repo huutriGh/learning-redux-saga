@@ -1,8 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Button, Grid, Modal, TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -13,33 +9,34 @@ class TaskForm extends Component {
     const { open, classes, onClose } = this.props;
 
     return (
-      <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-        <DialogContent>
-          <TextField
-            id="standard-name"
-            label="Name"
-            className={classes.textField}
-            margin="normal"
-          />
-          <TextField
-            id="standard-multiline-flexible"
-            label="Multiline"
-            multiline
-            rowsMax="4"
-            className={classes.textField}
-            margin="normal"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={onClose} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Modal open={open} onClose={onClose}>
+        <div className={classes.modal}>
+          <form>
+            <Grid container>
+              <Grid item md={8}>
+                <TextField
+                  id="standard-name"
+                  label="Name"
+                  className={classes.textField}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item md={8}>
+                <TextField
+                  id="standard-name"
+                  label="Name"
+                  className={classes.textField}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item md={12}>
+                <Button>Luu Lai</Button>
+                <Button onClick={onClose}>Huy bo</Button>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
     );
   }
 }
