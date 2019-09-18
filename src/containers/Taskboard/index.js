@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TaskForm from '../../components/TaskForm';
+import TaskForm from '../../containers/TaskForm';
 import TaskList from '../../components/TaskList/index';
 import { STATUSES } from '../../constants/index';
+import * as modalActions from './../../actions/modal';
 import * as taskActions from './../../actions/task';
-import styles from './styles';
 import SearchBox from './../../components/SearchBox/index';
+import styles from './styles';
 
 class Taskboard extends Component {
   constructor(props) {
@@ -54,9 +55,15 @@ class Taskboard extends Component {
   };
 
   openForm = () => {
-    this.setState({
-      open: true,
-    });
+    const { modalActionCreators } = this.props;
+    const {
+      showModal,
+      changeModalContent,
+      changeModalTile,
+    } = modalActionCreators;
+    showModal();
+    changeModalTile('Them moi cong viec');
+    changeModalContent(<TaskForm />);
   };
 
   renderForm = () => {
@@ -109,7 +116,6 @@ class Taskboard extends Component {
         </Button>
         {this.renderSearchBox()}
         {this.renderBoard()}
-        {this.renderForm()}
       </div>
     );
   }
@@ -120,6 +126,12 @@ Taskboard.propTypes = {
   taskActions: PropTypes.shape({
     fetchListTaskRequest: PropTypes.func,
     filterTask: PropTypes.func,
+  }),
+  modalActions: PropTypes.shape({
+    showModal: PropTypes.func,
+    hideModal: PropTypes.func,
+    changeModalContent: PropTypes.func,
+    changeModalTile: PropTypes.func,
   }),
   listTask: PropTypes.array,
 };
@@ -133,6 +145,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     taskActionCreators: bindActionCreators(taskActions, dispatch),
+    modalActionCreators: bindActionCreators(modalActions, dispatch),
   };
 };
 export default withStyles(styles)(
