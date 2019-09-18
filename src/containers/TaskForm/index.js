@@ -1,14 +1,14 @@
-import { Box, Button, Grid, TextField } from '@material-ui/core';
+import { Box, Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { reduxForm, Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import renderTextField from '../../components/FormHelper/TextField';
 import * as modalAction from './../../actions/modal';
 import styles from './styles';
 import validate from './validate';
-import renderTextField from '../../components/FormHelper/TextField';
 class TaskForm extends Component {
   handleSubmitForm = data => {};
 
