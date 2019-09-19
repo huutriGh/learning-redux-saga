@@ -29,6 +29,20 @@ class Taskboard extends Component {
     fetchListTask();
   }
 
+  handleEditTask = task => {
+    const { taskActionCreators, modalActionCreators } = this.props;
+    const { setTaskEditing } = taskActionCreators;
+    const {
+      showModal,
+      changeModalContent,
+      changeModalTile,
+    } = modalActionCreators;
+    setTaskEditing(task);
+    showModal();
+    changeModalTile('Cap nhat cong viec');
+    changeModalContent(<TaskForm />);
+  };
+
   renderBoard = () => {
     const { listTask } = this.props;
     let xhtml = null;
@@ -40,7 +54,12 @@ class Taskboard extends Component {
           );
 
           return (
-            <TaskList tasks={taskFilter} status={status} key={status.value} />
+            <TaskList
+              tasks={taskFilter}
+              status={status}
+              key={status.value}
+              onClickEdit={this.handleEditTask}
+            />
           );
         })}
       </Grid>
@@ -55,7 +74,9 @@ class Taskboard extends Component {
   };
 
   openForm = () => {
-    const { modalActionCreators } = this.props;
+    const { modalActionCreators, taskActionCreators } = this.props;
+    const { setTaskEditing } = taskActionCreators;
+    setTaskEditing(null);
     const {
       showModal,
       changeModalContent,
@@ -126,6 +147,7 @@ Taskboard.propTypes = {
   taskActions: PropTypes.shape({
     fetchListTaskRequest: PropTypes.func,
     filterTask: PropTypes.func,
+    setTaskEditing: PropTypes.func,
   }),
   modalActions: PropTypes.shape({
     showModal: PropTypes.func,

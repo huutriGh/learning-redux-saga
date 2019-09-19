@@ -1,22 +1,24 @@
 import {
   call,
-  fork,
-  take,
-  put,
   delay,
+  fork,
+  put,
+  take,
+  takeEvery,
   takeLatest,
-  select,
 } from 'redux-saga/effects';
-import { getList } from './../apis/task';
-import * as taskTypes from './../constants/task';
-import { STATUS_CODE } from './../constants/index';
+import { hideModal } from '../actions/modal';
 import {
-  fetchListTaskSuccess,
+  addTaskSuccess,
+  fetchListTask,
   fetchListTaskFailed,
-  filterTaskSuccess,
+  fetchListTaskSuccess,
 } from '../actions/task';
+import { hideLoading, showLoading } from './../actions/ui';
+import { addTask, getList } from './../apis/task';
+import { STATUSES, STATUS_CODE } from './../constants/index';
+import * as taskTypes from './../constants/task';
 
-import { showLoading, hideLoading } from './../actions/ui';
 /**
  * B1: Thuc thi action fetch task
  * B2: GOi API
@@ -27,9 +29,11 @@ import { showLoading, hideLoading } from './../actions/ui';
  */
 function* watchFetchTaskAction() {
   while (true) {
-    yield take(taskTypes.FETCH_TASK);
+    const action = yield take(taskTypes.FETCH_TASK);
     yield put(showLoading());
-    const res = yield call(getList);
+    const { payload } = action;
+    const { para } = payload;
+    const res = yield call(getList, para);
     const { status, data } = res;
     if (status === STATUS_CODE.SUCCESS) {
       yield put(fetchListTaskSuccess(data));
@@ -44,15 +48,37 @@ function* watchFetchTaskAction() {
 function* filterTaskSaga({ payload }) {
   yield delay(500);
   const { keyword } = payload;
-  const list = yield select(state => state.task.listTask);
-  const filterTask = list.filter(task =>
-    task.title.toLowerCase().includes(keyword.trim().toLowerCase()),
-  );
-  yield put(filterTaskSuccess(filterTask));
+  yield put(fetchListTask({ q: keyword }));
+  // const { keyword } = payload;
+  // const list = yield select(state => state.task.listTask);
+  // const filterTask = list.filter(task =>
+  //   task.title.toLowerCase().includes(keyword.trim().toLowerCase()),
+  // );
+  // yield put(filterTaskSuccess(filterTask));
+}
+
+function* addTaskSaga({ payload }) {
+  const { title, description } = payload;
+  yield put(showLoading());
+  const res = yield call(addTask, {
+    title,
+    description,
+    status: STATUSES[0].value,
+  });
+  const { data, status } = res;
+  if (status === STATUS_CODE.CREATED) {
+    yield put(addTaskSuccess(data));
+    yield put(hideModal());
+  } else {
+    yield put(addTaskSuccess(data));
+  }
+  yield delay(1000);
+  yield put(hideLoading());
 }
 
 function* rootSaga() {
   yield fork(watchFetchTaskAction);
   yield takeLatest(taskTypes.FILTER_TASK, filterTaskSaga);
+  yield takeEvery(taskTypes.ADD_TASK, addTaskSaga);
 }
 export default rootSaga;

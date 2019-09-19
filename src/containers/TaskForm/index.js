@@ -9,8 +9,14 @@ import renderTextField from '../../components/FormHelper/TextField';
 import * as modalAction from './../../actions/modal';
 import styles from './styles';
 import validate from './validate';
+import * as taskAction from './../../actions/task';
 class TaskForm extends Component {
-  handleSubmitForm = data => {};
+  handleSubmitForm = data => {
+    const { taskActionCreator } = this.props;
+    const { addTask } = taskActionCreator;
+    const { title, description } = data;
+    addTask(title, description);
+  };
 
   required = value => {
     let error = 'Vui long nhap tieu de';
@@ -35,6 +41,7 @@ class TaskForm extends Component {
       handleSubmit,
       invalid,
       submitting,
+      initialValues,
     } = this.props;
     const { hideModal } = modalActionCreator;
 
@@ -55,6 +62,7 @@ class TaskForm extends Component {
               margin="normal"
               name="title"
               component={renderTextField}
+              value={initialValues ? initialValues.title : ''}
             />
           </Grid>
           <Grid item md={12}>
@@ -73,6 +81,7 @@ class TaskForm extends Component {
               rowsmax="4"
               name="description"
               component={renderTextField}
+              value={initialValues ? initialValues.description : ''}
             />
           </Grid>
           <Grid item md={12}>
@@ -104,16 +113,26 @@ TaskForm.propTypes = {
   modalActionCreator: PropTypes.shape({
     hideModal: PropTypes.func,
   }),
+  taskActionCreator: PropTypes.shape({
+    addTask: PropTypes.func,
+  }),
   handleSubmit: PropTypes.func,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  initialValues: PropTypes.object,
 };
 
-const mapStateToProps = null;
+const mapStateToProps = state => {
+  return {
+    taskEditing: state.task.taskEditing,
+    initialValues: state.task.taskEditing,
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     modalActionCreator: bindActionCreators(modalAction, dispatch),
+    taskActionCreator: bindActionCreators(taskAction, dispatch),
   };
 };
 const FORM_NAME = 'TASK_MANAGEMENT';

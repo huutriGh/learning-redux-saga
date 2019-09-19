@@ -11,7 +11,7 @@ import styles from './styles';
 
 class TaskItem extends Component {
   render() {
-    const { classes, task, status } = this.props;
+    const { classes, task, status, onClickEdit } = this.props;
     const { title } = task;
     return (
       <Card key={task.id} className={classes.card}>
@@ -27,11 +27,22 @@ class TaskItem extends Component {
           </Grid>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Fab color="primary" aria-label="edit" className={classes.fab}>
+          <Fab
+            color="primary"
+            aria-label="edit"
+            className={classes.fab}
+            size="small"
+            onClick={onClickEdit}
+          >
             {/* <AddIcon /> */}
             <Icon fontSize="small">edit_icon</Icon>
           </Fab>
-          <Fab color="secondary" aria-label="delete" className={classes.fab}>
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="delete"
+            className={classes.fab}
+          >
             {/* <EditIcon /> */}
             <Icon fontSize="small">delete_icon</Icon>
           </Fab>
